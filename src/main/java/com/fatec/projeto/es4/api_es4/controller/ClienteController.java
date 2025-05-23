@@ -18,8 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fatec.projeto.es4.api_es4.domain.MailService;
 import com.fatec.projeto.es4.api_es4.domain.cliente.ClienteService;
 import com.fatec.projeto.es4.api_es4.entities.Cliente;
+import com.fatec.projeto.es4.api_es4.entities.MailStructure;
+
+import jakarta.mail.MessagingException;
 
 @RestController
 @RequestMapping("/api/cliente")
@@ -28,9 +32,19 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private MailService mailService;
+
     @PostMapping("/cadastrar-cliente")
-    public ResponseEntity<Cliente> cadastrarCliente(@RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> cadastrarCliente(@RequestBody Cliente cliente) throws MessagingException {
         Cliente c = clienteService.cadastrarCliente(cliente);
+        if (c == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null); // ou outra resposta adequada
+        }
+        MailStructure mailStructure = new MailStructure(c);
+        mailStructure.setSubject("Novo Cliente Cadastrado");
+        mailService.senMail("carloseduardomimi@gmail.com", mailStructure);
         return new ResponseEntity<>(c, HttpStatus.OK);
     }
 
