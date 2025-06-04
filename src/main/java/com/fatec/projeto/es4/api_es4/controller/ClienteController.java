@@ -35,6 +35,8 @@ public class ClienteController {
     @Autowired
     private MailService mailService;
 
+    //cadastro de cliente
+
     @PostMapping("/cadastrar-cliente")
     public ResponseEntity<Cliente> cadastrarCliente(@RequestBody Cliente cliente) throws MessagingException {
         Cliente c = clienteService.cadastrarCliente(cliente);
