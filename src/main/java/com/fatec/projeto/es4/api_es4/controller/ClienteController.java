@@ -101,6 +101,8 @@ public class ClienteController {
                 .body(resposta);
     }
 
+    // Verificação do Telefone
+
     @GetMapping("/verificar-telefone")
     public ResponseEntity<Map<String, String>> verificarTelefoneExistente(
             @RequestParam int ddd,
@@ -116,6 +118,8 @@ public class ClienteController {
                 .status(telefoneExiste ? HttpStatus.CONFLICT : HttpStatus.OK)
                 .body(resposta);
     }
+
+    // Verificação do Telefone
 
     @GetMapping("/verificar-telefone/id-diferente")
     public ResponseEntity<Map<String, String>> verificarTelefoneExistenteComIdDiferente(
@@ -134,6 +138,8 @@ public class ClienteController {
                 .body(resposta);
     }
 
+    // Verificação do Email
+
     @GetMapping("/verificar-email/{email}")
     public ResponseEntity<Map<String, String>> verificarEmailExistente(@PathVariable String email) {
         boolean emailExiste = clienteService.verificarEmailExistente(email);
@@ -146,6 +152,8 @@ public class ClienteController {
                 .status(emailExiste ? HttpStatus.CONFLICT : HttpStatus.OK)
                 .body(resposta);
     }
+
+    // Verificação do Email
 
     @GetMapping("/verificar-email")
     public ResponseEntity<Map<String, String>> verificarEmailExistenteComIdDiferente(
